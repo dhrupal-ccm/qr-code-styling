@@ -30,6 +30,9 @@ export default class QRDot {
       case dotTypes.rounded:
         drawFunction = this._drawRounded;
         break;
+      case dotTypes.diamond:
+        drawFunction = this._drawDiamond;
+        break;
       case dotTypes.extraRounded:
         drawFunction = this._drawExtraRounded;
         break;
@@ -212,6 +215,26 @@ export default class QRDot {
       this._basicSideRounded({ x, y, size, rotation });
       return;
     }
+  }
+
+  _basicDiamond(args: BasicFigureDrawArgs): void {
+    const { size, x, y } = args;
+
+    this._rotateFigure({
+      ...args,
+      rotation: (args.rotation || 0) + Math.PI / 4,
+      draw: () => {
+        this._element = this._window.document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        this._element.setAttribute("x", String(x));
+        this._element.setAttribute("y", String(y));
+        this._element.setAttribute("width", String(size));
+        this._element.setAttribute("height", String(size));
+      }
+    });
+  }
+
+  _drawDiamond({ x, y, size, rotation }: BasicFigureDrawArgs): void {
+    this._basicDiamond({ x, y, size, rotation });
   }
 
   _drawExtraRounded({ x, y, size, getNeighbor }: DrawArgs): void {

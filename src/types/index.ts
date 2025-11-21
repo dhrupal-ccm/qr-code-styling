@@ -1,13 +1,13 @@
 import { DOMWindow, JSDOM } from "jsdom";
-import nodeCanvas  from "canvas";
+import nodeCanvas from "canvas";
 
 export interface UnknownObject {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
-export type DotType = "dots" | "rounded" | "classy" | "classy-rounded" | "square" | "extra-rounded";
-export type CornerDotType = "dot" | "square" | DotType;
+export type DotType = "dots" | "rounded" | "classy" | "classy-rounded" | "square" | "extra-rounded" | "diamond";
+export type CornerDotType = "dot" | "square" | "diamond" | DotType;
 export type CornerSquareType = "dot" | "square" | "extra-rounded" | DotType;
 export type FileExtension = "svg" | "png" | "jpeg" | "webp";
 export type GradientType = "radial" | "linear";

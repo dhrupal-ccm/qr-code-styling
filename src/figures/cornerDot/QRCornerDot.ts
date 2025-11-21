@@ -23,6 +23,9 @@ export default class QRCornerDot {
       case cornerDotTypes.square:
         drawFunction = this._drawSquare;
         break;
+      case cornerDotTypes.diamond:
+        drawFunction = this._drawDiamond;
+        break;
       case cornerDotTypes.dot:
       default:
         drawFunction = this._drawDot;
@@ -68,11 +71,36 @@ export default class QRCornerDot {
     });
   }
 
+  _basicDiamond(args: BasicFigureDrawArgs): void {
+    const { size, x, y } = args;
+
+    const diamondSize = size * 0.7;
+    const offset = (size - diamondSize) / 2;
+    const cornerRadius = diamondSize * 0.12; // 12% rounding for softer edges
+
+    this._rotateFigure({
+      ...args,
+      rotation: (args.rotation || 0) + Math.PI / 4,
+      draw: () => {
+        this._element = this._window.document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        this._element.setAttribute("x", String(x + offset));
+        this._element.setAttribute("y", String(y + offset));
+        this._element.setAttribute("width", String(diamondSize));
+        this._element.setAttribute("height", String(diamondSize));
+        this._element.setAttribute("rx", String(cornerRadius));
+        this._element.setAttribute("ry", String(cornerRadius));
+      }
+    });
+  }
   _drawDot({ x, y, size, rotation }: DrawArgs): void {
     this._basicDot({ x, y, size, rotation });
   }
 
   _drawSquare({ x, y, size, rotation }: DrawArgs): void {
     this._basicSquare({ x, y, size, rotation });
+  }
+
+  _drawDiamond({ x, y, size, rotation }: DrawArgs): void {
+    this._basicDiamond({ x, y, size, rotation });
   }
 }
